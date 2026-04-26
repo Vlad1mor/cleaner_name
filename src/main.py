@@ -1,5 +1,4 @@
 import os
-import sys
 import pandas as pd
 from dotenv import load_dotenv
 
@@ -8,7 +7,7 @@ from db_loader import load_to_postgres
 
 load_dotenv()
 
-DATA_DIR = "data"
+DATA_DIR = "../data"
 TABLE_NAME = "cleaned_names"
 TXT_COLUMN_NAME = "cleaned_name"
 
@@ -18,14 +17,12 @@ DB_URL = (
 )
 
 def find_file_by_name(filename):
-    """Возвращает полный путь к файлу в папке DATA_DIR, если он существует."""
     file_path = os.path.join(DATA_DIR, filename)
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Файл {file_path} не найден")
     return file_path
 
 def read_file(file_path):
-    """Читает файл в зависимости от расширения."""
     ext = os.path.splitext(file_path)[1].lower()
     if ext == '.csv':
         return pd.read_csv(file_path)
@@ -41,12 +38,12 @@ def read_file(file_path):
         raise ValueError(f"Неподдерживаемый формат: {ext}")
 
 def main():
-    if len(sys.argv) != 2:
-        print("Использование: python src/main.py <имя_файла>")
-        print("Файл должен находиться в папке data/")
+    # Интерактивный ввод имени файла
+    filename = input("Введите имя файла (например, names.txt): ").strip()
+    if not filename:
+        print("Имя файла не может быть пустым")
         return
 
-    filename = sys.argv[1]
     try:
         file_path = find_file_by_name(filename)
     except FileNotFoundError as e:
