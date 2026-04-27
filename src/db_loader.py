@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 
 
-def load_to_postgres(df, table_name, db_url, if_exists='append'):
+def load_to_postgres(df, table_name, db_url, if_exists="append"):
     """
     Загружает данные(df) в базу данных(table_name)
     """
